@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from stamp_calc_ui import Ui_MainWindow
+from decimal import Decimal
 import json_bridge as j_b
 import sys
 
@@ -12,23 +13,75 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.load_values()
 
         self.weight_lookup = {
-            self.sp_1kg: 3.4,
-            self.sp_2kg: 5.5,
-            self.mp_1kg: 5.7,
-            self.mp_2kg: 8.95,
-            self.mp_5kg: 15.85,
-            self.mp_10kg: 21.9,
-            self.mp_20kg: 33.4
+            self.sp_1kg: Decimal(3.4),
+            self.sp_2kg: Decimal(5.5),
+            self.mp_1kg: Decimal(5.7),
+            self.mp_2kg: Decimal(8.95),
+            self.mp_5kg: Decimal(15.85),
+            self.mp_10kg: Decimal(21.9),
+            self.mp_20kg: Decimal(33.4)
         }
 
         self.calc_stamps_button.clicked.connect(self.calculate)
 
+    def get_highest_stamp_below_value(self, package_value):
+        biggest = Decimal(0.0)
+        for stamp in self.stamp_dict:
+            d_val = Decimal(self.stamp_dict[stamp]["value"])
+            if d_val > biggest and d_val < package_value:
+                biggest = d_val
+        return biggest
+
+    def get_lowest_stamp(self):
+        val_lis = []
+        for stamp in self.stamp_dict:
+            val_lis.append(self.stamp_dict[stamp]["value"])
+        return Decimal(min(val_lis))
+
+    def count_stamps(self, used):
+        names_amounts = {}
+        for stamp_value in used:
+            nom = j_b.get_name_by_value(self.stamp_dict, stamp_value)
+            if nom in names_amounts:
+                names_amounts[nom] += 1
+            else:
+                names_amounts[nom] = 1
+        return names_amounts
+
     def calculate(self):
+        """NEED TO ADD REMOVING STAMPS FROM STAMP DICT WHEN USED IN CALCULATION"""
+        self.result_list.clear()
         used = []
         # Only 1 radio can be checked at once
         for radio in self.weight_lookup:
             if radio.isChecked():
                 package_value = self.weight_lookup[radio]
+                preserved_package_value = package_value
+                for stamp in self.stamp_dict:
+                    if self.stamp_dict[stamp]["value"] == package_value:
+                        """ADD REMOVE HERE"""
+                        self.result_list.addItem(str(preserved_package_value))
+                        self.result_list.addItem(str(self.stamp_dict[stamp]["value"]))
+                        return
+                while package_value > 0:
+                    highest = self.get_highest_stamp_below_value(package_value)
+                    if highest == 0:
+                        """ADD REMOVE HERE"""
+                        used.append(self.get_lowest_stamp())
+                        self.result_list.addItem(str(round(preserved_package_value, 2)))
+                        names = self.count_stamps(used)
+                        for name in names:
+                            output = name + " x " + str(names[name])
+                            self.result_list.addItem(output)
+                        return
+                    package_value -= highest
+                    """ADD REMOVE HERE"""
+                    used.append(highest)
+                self.result_list.addItem(str(round(preserved_package_value, 2)))
+                names = self.count_stamps(used)
+                for name in names:
+                    output = name + " x " + str(names[name])
+                    self.result_list.addItem(output)
 
     def load_values(self):
         # Pull stamps from config file and list them
