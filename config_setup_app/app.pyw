@@ -28,12 +28,16 @@ class config_setup_main_app(Ui_MainWindow):
 
         try:
             item_amount = int(self.new_stamp_amount_line_edit.text())
+            item_value = float(self.new_stamp_value_line_edit.text())
         except ValueError:
             self.popup("Value Error", "Amount to add must be integer",
-                "", QMessageBox.Critical, None, False)
+                "Value must be float", QMessageBox.Critical, None, False)
         else:
-            item_value = self.new_stamp_value_line_edit.text()
             self.stamp_dict[item_name] = {"value": item_value, "amount": item_amount}
+
+        self.new_stamp_name_line_edit.clear()
+        self.new_stamp_amount_line_edit.clear()
+        self.new_stamp_value_line_edit.clear()
         self.load_values()
 
     def remove_item_amount(self):
@@ -57,10 +61,13 @@ class config_setup_main_app(Ui_MainWindow):
                         "", QMessageBox.Critical, None, False)
                 else:
                     self.stamp_dict[item_name]["amount"] -= to_remove
+        self.rmv_stamp_amount_line_edit.clear()
         self.load_values()
 
     def save(self):
         j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
+        self.popup("Sucess", "Save to stamps.json", "sucessful",
+                   QMessageBox.Information, None, False)
 
     def popup(self, window_title, title, message, icon, action, exit):
         msg = QMessageBox()
