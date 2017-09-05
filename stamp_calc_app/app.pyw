@@ -84,6 +84,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                     self.result_list.addItem(output)
 
     def load_values(self):
+        self.current_stamps_list.clear()
         # Pull stamps from config file and list them
         for item in j_b.get_all_names(self.stamp_dict):
             amount = str(j_b.get_amount(self.stamp_dict, item))
