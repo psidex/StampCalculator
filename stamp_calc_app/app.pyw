@@ -117,5 +117,5 @@ if __name__ == "__main__":
     prog = stamp_calc_main_app(dialog)
     dialog.show()
     app.exec_()
-    prog.save()
+    # prog.save()
     sys.exit()
