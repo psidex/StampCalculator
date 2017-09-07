@@ -28,7 +28,8 @@ class stamp_calc_main_app(Ui_MainWindow):
         biggest = Decimal(0.0)
         for stamp in self.stamp_dict:
             d_val = Decimal(self.stamp_dict[stamp]["value"])
-            if d_val > biggest and d_val < package_value:
+            # Round values to compare them but dont actually change the variables
+            if round(d_val, 2) > round(biggest, 2) and round(d_val, 2) < round(package_value, 2):
                 biggest = d_val
         return biggest
 
@@ -46,6 +47,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                 names_amounts[nom] += 1
             else:
                 names_amounts[nom] = 1
+        print(names_amounts)
         return names_amounts
 
     def calculate(self):
