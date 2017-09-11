@@ -108,6 +108,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindow.setTabOrder(self.new_stamp_name_line_edit, self.new_stamp_value_line_edit)
+        MainWindow.setTabOrder(self.new_stamp_value_line_edit, self.add_new_stamp_btn)
+        MainWindow.setTabOrder(self.add_new_stamp_btn, self.rmv_selected_btn)
+        MainWindow.setTabOrder(self.rmv_selected_btn, self.save_changes_btn)
+        MainWindow.setTabOrder(self.save_changes_btn, self.curr_stamps_list)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

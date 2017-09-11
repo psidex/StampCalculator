@@ -270,6 +270,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>new_stamp_name_line_edit</tabstop>
+  <tabstop>new_stamp_value_line_edit</tabstop>
+  <tabstop>add_new_stamp_btn</tabstop>
+  <tabstop>rmv_selected_btn</tabstop>
+  <tabstop>save_changes_btn</tabstop>
+  <tabstop>curr_stamps_list</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
