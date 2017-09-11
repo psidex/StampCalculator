@@ -16,8 +16,8 @@ class config_setup_main_app(Ui_MainWindow):
 
     def load_values(self):
         self.curr_stamps_list.clear()
-        # Pull stamps from config file and list them
-        for item in j_b.get_all_names(self.stamp_dict):
+        # Pull stamps from config file and list them (sorted lowest to highest value)
+        for item in sorted(j_b.get_all_names(self.stamp_dict)):
             self.curr_stamps_list.addItem(item)
 
     def add_new_stamp(self):
@@ -42,7 +42,7 @@ class config_setup_main_app(Ui_MainWindow):
 
     def save(self):
         j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
-        self.popup("Sucess", "Save to stamps.json", "sucessful")
+        self.popup("Success", "Save to stamps.json", "sucessful")
 
     def popup(self, window_title, title, message, icon=QMessageBox.Information):
         msg = QMessageBox()

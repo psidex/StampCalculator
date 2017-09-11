@@ -23,6 +23,11 @@
       <height>381</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
     </property>
@@ -90,6 +95,11 @@
        <height>51</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Remove selected stamp</string>
      </property>
@@ -102,6 +112,11 @@
        <width>191</width>
        <height>51</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>Add Stamp</string>
@@ -121,14 +136,14 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>10</y>
-       <width>121</width>
-       <height>16</height>
+       <y>6</y>
+       <width>191</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>10</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">
@@ -183,14 +198,14 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
-       <width>121</width>
-       <height>16</height>
+       <y>66</y>
+       <width>191</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>10</pointsize>
+       <pointsize>12</pointsize>
       </font>
      </property>
      <property name="text">
