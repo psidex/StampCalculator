@@ -77,7 +77,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                         used.append(lowest_stamp)
                         names = self.count_stamps(used)
                         self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
-                        for name in names:
+                        for name in sorted(names):
                             output = name + " x " + str(names[name])
                             self.result_list.addItem(output)
                         return
@@ -89,7 +89,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                 """
                 names = self.count_stamps(used)
                 self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
-                for name in names:
+                for name in sorted(names):
                     output = name + " x " + str(names[name])
                     self.result_list.addItem(output)
 
