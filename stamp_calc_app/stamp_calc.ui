@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>663</width>
-    <height>377</height>
+    <width>662</width>
+    <height>389</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -141,7 +141,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Calculate Stamps</string>
+     <string>Calculate Postage</string>
     </property>
    </widget>
    <widget class="QLabel" name="result_label">
@@ -149,7 +149,7 @@
      <rect>
       <x>170</x>
       <y>10</y>
-      <width>81</width>
+      <width>221</width>
       <height>31</height>
      </rect>
     </property>
@@ -159,7 +159,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Result:</string>
+     <string>Postage</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="Line" name="vertical_line_1">
@@ -193,7 +196,7 @@
      <rect>
       <x>430</x>
       <y>10</y>
-      <width>201</width>
+      <width>221</width>
       <height>31</height>
      </rect>
     </property>
@@ -203,7 +206,10 @@
      </font>
     </property>
     <property name="text">
-     <string>Current stamps:</string>
+     <string>Stock</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QListWidget" name="result_list">
@@ -217,7 +223,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="defaultDropAction">
@@ -258,7 +264,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>663</width>
+     <width>662</width>
      <height>21</height>
     </rect>
    </property>
