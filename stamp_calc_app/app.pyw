@@ -25,11 +25,11 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.calc_stamps_button.clicked.connect(self.calculate)
 
     def get_highest_stamp_below_value(self, package_value):
-        biggest = Decimal(0.0)
+        package_value = round(package_value, 2)
+        biggest = round(Decimal(0.00), 2)
         for stamp in self.stamp_dict:
-            d_val = Decimal(self.stamp_dict[stamp]["value"])
-            # Round values to compare them but dont actually change the variables
-            if round(d_val, 2) > round(biggest, 2) and round(d_val, 2) < round(package_value, 2):
+            d_val = round(Decimal(self.stamp_dict[stamp]["value"]), 2)
+            if d_val > biggest and d_val <= package_value:
                 biggest = d_val
         return biggest
 
@@ -37,7 +37,7 @@ class stamp_calc_main_app(Ui_MainWindow):
         val_lis = []
         for stamp in self.stamp_dict:
             val_lis.append(self.stamp_dict[stamp]["value"])
-        return Decimal(min(val_lis))
+        return round(Decimal(min(val_lis)), 2)
 
     def count_stamps(self, used):
         names_amounts = {}
@@ -47,11 +47,9 @@ class stamp_calc_main_app(Ui_MainWindow):
                 names_amounts[nom] += 1
             else:
                 names_amounts[nom] = 1
-        print(names_amounts)
         return names_amounts
 
     def calculate(self):
-        """NEED TO ADD REMOVING STAMPS FROM STAMP DICT WHEN USED IN CALCULATION"""
         self.result_list.clear()
         used = []
         # Only 1 radio can be checked at once
@@ -60,56 +58,46 @@ class stamp_calc_main_app(Ui_MainWindow):
                 package_value = self.weight_lookup[radio]
                 preserved_package_value = package_value
                 for stamp in self.stamp_dict:
+                    """
+                    If package has same price as value of one of the stamps
+                    """
                     if self.stamp_dict[stamp]["value"] == package_value:
-                        """ADD REMOVE HERE"""
-                        self.result_list.addItem(str(preserved_package_value))
+                        self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
                         self.result_list.addItem(str(self.stamp_dict[stamp]["value"]))
                         return
                 while package_value > 0:
+                    package_value = round(package_value, 2)  # Not sure why but it gets turned to a horrible float somewhere
                     highest = self.get_highest_stamp_below_value(package_value)
                     if highest == 0:
-                        """ADD REMOVE HERE"""
-                        used.append(self.get_lowest_stamp())
-                        self.result_list.addItem(str(round(preserved_package_value, 2)))
+                        """
+                        If there is no stamp that first inbetween postage &
+                        current worked out value, get the lowest value stamp and use that
+                        """
+                        lowest_stamp = self.get_lowest_stamp()
+                        used.append(lowest_stamp)
                         names = self.count_stamps(used)
+                        self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
                         for name in names:
                             output = name + " x " + str(names[name])
                             self.result_list.addItem(output)
                         return
                     package_value -= highest
-                    """ADD REMOVE HERE"""
                     used.append(highest)
-                self.result_list.addItem(str(round(preserved_package_value, 2)))
+                """
+                Package value has been worked out exactly with current stamps
+                (for example £0.25 * 2 stamps for a £0.50 package)
+                """
                 names = self.count_stamps(used)
+                self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
                 for name in names:
                     output = name + " x " + str(names[name])
                     self.result_list.addItem(output)
 
     def load_values(self):
         self.current_stamps_list.clear()
-        # Pull stamps from config file and list them
-        for item in j_b.get_all_names(self.stamp_dict):
-            amount = str(j_b.get_amount(self.stamp_dict, item))
-            self.current_stamps_list.addItem(item + " x " + amount)
-
-    def save(self):
-        j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
-        self.popup("Sucess", "Save to stamps.json", "sucessful",
-                   QMessageBox.Information, None, False)
-
-    def popup(self, window_title, title, message, icon, action, exit):
-        msg = QMessageBox()
-        msg.setIcon(icon)
-        msg.setWindowTitle(window_title)
-        msg.setText(title)
-        msg.setInformativeText(message)
-        msg.setStandardButtons(QMessageBox.Ok)
-        if action:
-            msg.buttonClicked.connect(action)
-        if exit:
-            sys.exit(msg.exec_())
-        else:
-            msg.exec_()
+        # Pull stamps from config file and list them (sorted lowest value first)
+        for item in sorted(j_b.get_all_names(self.stamp_dict)):
+            self.current_stamps_list.addItem(item)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -117,5 +105,4 @@ if __name__ == "__main__":
     prog = stamp_calc_main_app(dialog)
     dialog.show()
     app.exec_()
-    # prog.save()
     sys.exit()

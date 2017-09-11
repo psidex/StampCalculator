@@ -17,10 +17,7 @@ def get_all_names(data):
 def get_value(data, name):
     return data[name]["value"]
 
-def get_amount(data, name):
-    return data[name]["amount"]
-
 def get_name_by_value(data, value):
     for name, v in data.items():
-        if v["value"] == value:
+        if v["value"] == float(value):
             return name
