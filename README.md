@@ -15,7 +15,5 @@ into each dir and then use this command in each dir:
 
 ## ToDo
 
- - Fix package may end up having something such as 10 * 10 pence stamps when you have 1 pound stamps or 20 * 1 pence when you have a 20 pence stamp
  - fix both apps when launched & stamps.json does not exist
  - make sure user can only input legitimate values in inputs
- - remove stamps from stamp dict when used in calculation in main calc app (maybe remove after full calculation?)
