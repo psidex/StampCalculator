@@ -85,7 +85,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                     """
                     if self.stamp_dict[stamp]["value"] == package_value:
                         self.result_label.setText("Postage = £" + str(preserved_package_value/100))
-                        self.result_list.addItem(str(stamp))
+                        self.result_list.addItem(str(stamp) + " x 1")
                         return  # Exit method
                 while package_value > 0:
                     highest = self.get_highest_stamp_below_value(package_value)
