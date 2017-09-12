@@ -489,7 +489,7 @@
       </font>
      </property>
      <property name="text">
-      <string>New stamp value:</string>
+      <string>New stamp value (pence):</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="new_stamp_value_line_edit">

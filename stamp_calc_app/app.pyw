@@ -4,31 +4,28 @@ from stamp_calc_ui import Ui_MainWindow
 import json_bridge as j_b
 import sys
 
-# Decimal
-
 class stamp_calc_main_app(Ui_MainWindow):
     def __init__(self, dialog):
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
+        self.weight_lookup = {
+        self.sp_1kg: 340,
+        self.sp_2kg: 550,
+        self.mp_1kg: 570,
+        self.mp_2kg: 895,
+        self.mp_5kg: 1585,
+        self.mp_10kg: 2190,
+        self.mp_20kg: 3340
+        }
+
         self.save_changes_btn.clicked.connect(self.save)
         self.add_new_stamp_btn.clicked.connect(self.add_new_stamp)
         self.rmv_selected_btn.clicked.connect(self.remove_selected_stamp)
+        self.calc_stamps_button.clicked.connect(self.calculate)
 
         self.stamp_dict = j_b.get_dict_from_file("stamps.json")
         self.load_values()
-
-        self.weight_lookup = {
-            self.sp_1kg: 340,
-            self.sp_2kg: 550,
-            self.mp_1kg: 570,
-            self.mp_2kg: 895,
-            self.mp_5kg: 1585,
-            self.mp_10kg: 2190,
-            self.mp_20kg: 3340
-        }
-
-        self.calc_stamps_button.clicked.connect(self.calculate)
 
     def flatten_used(self, used):
         """ == WIP ==
@@ -37,6 +34,8 @@ class stamp_calc_main_app(Ui_MainWindow):
         into
         used = ["£0.4":4]
         """
+        print(used)
+        return used
 
     def get_highest_stamp_below_value(self, package_value):
         package_value = package_value
@@ -63,10 +62,19 @@ class stamp_calc_main_app(Ui_MainWindow):
                 names_amounts[nom] = 1
         return names_amounts
 
+    def output_calculated(self, used_param, preserved_package_value):
+        #
+        used = self.flatten_used(used_param)
+        #
+        names = self.count_stamps(used)
+        self.result_label.setText("Postage = £" + str(preserved_package_value/100))
+        for name in reversed(sorted(names)):
+            output = name + " x " + str(names[name])
+            self.result_list.addItem(output)
+
     def calculate(self):
         self.result_list.clear()
         used = []
-        # Only 1 radio can be checked at once
         for radio in self.weight_lookup:
             if radio.isChecked():
                 package_value = self.weight_lookup[radio]
@@ -78,7 +86,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                     if self.stamp_dict[stamp]["value"] == package_value:
                         self.result_label.setText("Postage = £" + str(preserved_package_value/100))
                         self.result_list.addItem(str(stamp))
-                        return
+                        return  # Exit method
                 while package_value > 0:
                     highest = self.get_highest_stamp_below_value(package_value)
                     if highest == 0:
@@ -88,30 +96,21 @@ class stamp_calc_main_app(Ui_MainWindow):
                         """
                         lowest_stamp = self.get_lowest_stamp()
                         used.append(lowest_stamp)
-                        names = self.count_stamps(used)
-                        self.result_label.setText("Postage = £" + str(preserved_package_value/100))
-                        for name in reversed(sorted(names)):
-                            output = name + " x " + str(names[name])
-                            self.result_list.addItem(output)
-                        return
+                        self.output_calculated(used, preserved_package_value)
+                        return  # Exit method
                     package_value -= highest
                     used.append(highest)
                 """
                 Package value has been worked out exactly with current stamps
                 (for example £0.25 * 2 stamps for a £0.50 package)
                 """
-                names = self.count_stamps(used)
-                self.result_label.setText("Postage = £" + str(preserved_package_value/100))
-                for name in reversed(sorted(names)):
-                    output = name + " x " + str(names[name])
-                    self.result_list.addItem(output)
+                self.output_calculated(used, preserved_package_value)
 
     def load_values(self):
         self.current_stamps_list.clear()
         # Pull stamps from config file and list them (sorted lowest value first)
         for item in sorted(j_b.get_all_names(self.stamp_dict)):
             self.current_stamps_list.addItem(item)
-
 
     """ == CONFIG METHODS [BELOW] == """
 
@@ -137,7 +136,7 @@ class stamp_calc_main_app(Ui_MainWindow):
 
     def save(self):
         j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
-        self.popup("Success", "Save to stamps.json", "sucessful")
+        self.popup("Success", "Save to stamps.json", "Sucessful")
 
     def popup(self, window_title, title, message, icon=QMessageBox.Information):
         msg = QMessageBox()

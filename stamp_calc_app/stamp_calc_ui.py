@@ -229,5 +229,5 @@ class Ui_MainWindow(object):
         self.add_new_stamp_btn.setText(_translate("MainWindow", "Add Stamp"))
         self.new_stamp_name_label.setText(_translate("MainWindow", "New stamp name:"))
         self.save_changes_btn.setText(_translate("MainWindow", "SAVE CHANGES"))
-        self.new_stamp_value_label.setText(_translate("MainWindow", "New stamp value:"))
+        self.new_stamp_value_label.setText(_translate("MainWindow", "New stamp value (pence):"))
 
