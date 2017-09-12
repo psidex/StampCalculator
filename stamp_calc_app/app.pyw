@@ -6,6 +6,12 @@ import sys
 
 class stamp_calc_main_app(Ui_MainWindow):
     def __init__(self, dialog):
+        try:
+            self.stamp_dict = j_b.get_dict_from_file("stamps.json")
+        except FileNotFoundError:
+            # No point doing anything unless stamps.json exists
+            self.popup("Fatal Error", "stamps.json", "not found", exit=True)
+
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
@@ -24,7 +30,6 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.rmv_selected_btn.clicked.connect(self.remove_selected_stamp)
         self.calc_stamps_button.clicked.connect(self.calculate)
 
-        self.stamp_dict = j_b.get_dict_from_file("stamps.json")
         self.load_values()
 
     def flatten_used(self, used):
@@ -67,7 +72,8 @@ class stamp_calc_main_app(Ui_MainWindow):
         used = self.flatten_used(used_param)
         #
         names = self.count_stamps(used)
-        self.result_label.setText("Postage = £" + str(preserved_package_value/100))
+        # https://stackoverflow.com/a/15238187/6396652
+        self.result_label.setText("Postage = £" + "{:.2f}".format(preserved_package_value/100))
         for name in reversed(sorted(names)):
             output = name + " x " + str(names[name])
             self.result_list.addItem(output)
@@ -84,7 +90,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                     If package has same price as value of one of the stamps
                     """
                     if self.stamp_dict[stamp]["value"] == package_value:
-                        self.result_label.setText("Postage = £" + str(preserved_package_value/100))
+                        self.result_label.setText("Postage = £" + "{:.2f}".format(preserved_package_value/100))
                         self.result_list.addItem(str(stamp) + " x 1")
                         return  # Exit method
                 while package_value > 0:
@@ -135,17 +141,23 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.load_values()
 
     def save(self):
-        j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
-        self.popup("Success", "Save to stamps.json", "Sucessful")
+        try:
+            j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
+            self.popup("Success", "Save to stamps.json", "Sucessful")
+        except IOError:
+            self.popup("Error", "IOError", "Cannot save to stamps.json")
 
-    def popup(self, window_title, title, message, icon=QMessageBox.Information):
+    def popup(self, window_title, title, message, icon=QMessageBox.Information, exit=False):
         msg = QMessageBox()
         msg.setIcon(icon)
         msg.setWindowTitle(window_title)
         msg.setText(title)
         msg.setInformativeText(message)
         msg.setStandardButtons(QMessageBox.Ok)
-        msg.exec_()
+        if exit:
+            sys.exit(msg.exec_())
+        else:
+            msg.exec_()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
