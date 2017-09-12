@@ -8,8 +8,6 @@ pyinstaller --onefile --windowed --path bin --icon=icon.ico app.pyw
 cd dist
 ren app.exe "Postage Stamp Calculation.exe"
 copy calc.exe ..\..\..
-cd ..\..
-copy stamps.json ..
 echo.
 echo.
 echo.
