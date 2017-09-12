@@ -7,7 +7,9 @@ cd stamp_calc_app
 pyinstaller --onefile --windowed --path bin --icon=icon.ico app.pyw
 cd dist
 ren app.exe "Postage Stamp Calculation.exe"
-copy calc.exe ..\..\..
+copy "Postage Stamp Calculation.exe" ..\..\..
+cd ..\..\..
+rmdir Stamp_Calculator /s /q
 echo.
 echo.
 echo.
