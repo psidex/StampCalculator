@@ -9,6 +9,11 @@ class stamp_calc_main_app(Ui_MainWindow):
     def __init__(self, dialog):
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
+
+        self.save_changes_btn.clicked.connect(self.save)
+        self.add_new_stamp_btn.clicked.connect(self.add_new_stamp)
+        self.rmv_selected_btn.clicked.connect(self.remove_selected_stamp)
+
         self.stamp_dict = j_b.get_dict_from_file("stamps.json")
         self.load_values()
 
@@ -23,6 +28,14 @@ class stamp_calc_main_app(Ui_MainWindow):
         }
 
         self.calc_stamps_button.clicked.connect(self.calculate)
+
+    def flatten_used(self, used):
+        """
+        For example:
+        used = ["£0.2":2, "£0.4":3]
+        into
+        used = ["£0.4":4]
+        """
 
     def get_highest_stamp_below_value(self, package_value):
         package_value = round(package_value, 2)
@@ -63,7 +76,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                     """
                     if self.stamp_dict[stamp]["value"] == package_value:
                         self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
-                        self.result_list.addItem(str(self.stamp_dict[stamp]["value"]))
+                        self.result_list.addItem(str(stamp))
                         return
                 while package_value > 0:
                     package_value = round(package_value, 2)  # Not sure why but it gets turned to a horrible float somewhere
@@ -77,7 +90,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                         used.append(lowest_stamp)
                         names = self.count_stamps(used)
                         self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
-                        for name in sorted(names):
+                        for name in reversed(sorted(names)):
                             output = name + " x " + str(names[name])
                             self.result_list.addItem(output)
                         return
@@ -89,7 +102,7 @@ class stamp_calc_main_app(Ui_MainWindow):
                 """
                 names = self.count_stamps(used)
                 self.result_label.setText("Postage = £" + str(round(preserved_package_value, 2)))
-                for name in sorted(names):
+                for name in reversed(sorted(names)):
                     output = name + " x " + str(names[name])
                     self.result_list.addItem(output)
 
@@ -99,10 +112,47 @@ class stamp_calc_main_app(Ui_MainWindow):
         for item in sorted(j_b.get_all_names(self.stamp_dict)):
             self.current_stamps_list.addItem(item)
 
+
+    """ == CONFIG METHODS [BELOW] == """
+
+    def add_new_stamp(self):
+        item_name = self.new_stamp_name_line_edit.text()
+
+        try:
+            item_value = float(self.new_stamp_value_line_edit.text())
+        except ValueError:
+            self.popup("Value Error", "Stamp value", "Value must be float", QMessageBox.Critical)
+        else:
+            self.stamp_dict[item_name] = {"value": item_value}
+
+        self.new_stamp_name_line_edit.clear()
+        self.new_stamp_value_line_edit.clear()
+        self.load_values()
+
+    def remove_selected_stamp(self):
+        for item in self.current_stamps_list.selectedItems():
+            item_name = item.text()
+            del self.stamp_dict[item_name]
+        self.load_values()
+
+    def save(self):
+        j_b.dump_dict_to_file(self.stamp_dict, "stamps.json")
+        self.popup("Success", "Save to stamps.json", "sucessful")
+
+    def popup(self, window_title, title, message, icon=QMessageBox.Information):
+        msg = QMessageBox()
+        msg.setIcon(icon)
+        msg.setWindowTitle(window_title)
+        msg.setText(title)
+        msg.setInformativeText(message)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     dialog = QtWidgets.QMainWindow()
     prog = stamp_calc_main_app(dialog)
     dialog.show()
     app.exec_()
+    prog.save()  # Save on exit
     sys.exit()
