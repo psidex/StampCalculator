@@ -4,6 +4,6 @@
 
 `pyuic5 -x stamp_calc.ui -o stamp_calc_ui.py`
 
-## ToDo
+## Notes
 
-  - `[£0.10 * 2]` -> `[£0.20 * 1]`
+Ty [@Cutwell](https://github.com/cutwell) for helping with the decreasing first-fit algorithm
