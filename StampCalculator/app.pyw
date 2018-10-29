@@ -22,15 +22,17 @@ class StampCalculatorApp(Ui_MainWindow):
         self.setupUi(dialog)
 
         self.packageRadioButtons = [
-            self.sp_1kg, self.sp_2kg, self.mp_1kg, self.mp_2kg, self.mp_5kg,
-            self.mp_10kg, self.mp_20kg
+            self.smallParcel1kgRadio, self.smallParcel2kgRadio,
+            self.mediumParcel1kgRadio, self.mediumParcel2kgRadio,
+            self.mediumParcel5kgRadio, self.mediumParcel10kgRadio,
+            self.mediumParcel20kgRadio
         ]
 
         # Connect UI elements up to class methods
         self.save_changes_btn.clicked.connect(self.saveStampData)
         self.add_new_stamp_btn.clicked.connect(self.addNewStamp)
         self.rmv_selected_btn.clicked.connect(self.removeSelectedStamp)
-        self.calc_stamps_button.clicked.connect(self.calculateStampsToUse)
+        self.calc_stamps_btn.clicked.connect(self.calculateStampsToUse)
 
         # Update UI with current data
         self.updateGuiStampList()
@@ -58,7 +60,7 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         names = self.countStamps(used)
         # https://stackoverflow.com/a/15238187/6396652
-        self.result_label.setText("Postage = £{:.2f}".format(packageValue/100))
+        self.result_label.setText("Postage\n£{:.2f}".format(packageValue/100))
         for name in reversed(sorted(names)):
             output = name + " x " + str(names[name])
             self.result_list.addItem(output)
