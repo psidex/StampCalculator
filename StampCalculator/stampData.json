@@ -1,0 +1,15 @@
+{
+    "packagePrices": {
+        "smallPackage1kg": 345,
+        "smallPackage2kg": 550,
+        "mediumPackage1kg": 575,
+        "mediumPackage2kg": 895,
+        "mediumPackage5kg": 1585,
+        "mediumPackage10kg": 2190,
+        "mediumPackage20kg": 3340
+    },
+    "userStamps": {
+        "\u00a34.60": 460,
+        "\u00a30.10": 10
+    }
+}
