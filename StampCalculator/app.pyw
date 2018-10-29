@@ -17,6 +17,8 @@ class StampCalculatorApp(Ui_MainWindow):
             # No point doing anything unless stamps.json exists
             self.popup("Fatal Error", "stampData.json", "not found", exit=True)
 
+        self.stamp_dict = self.stampData["userStamps"]
+
         # Init UI
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
