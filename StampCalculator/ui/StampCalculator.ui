@@ -22,6 +22,9 @@
    <iconset>
     <normaloff>icon.ico</normaloff>icon.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="small_parcel_label">
     <property name="geometry">
@@ -191,16 +194,13 @@
       <x>20</x>
       <y>310</y>
       <width>111</width>
-      <height>121</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>10</pointsize>
      </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
     </property>
     <property name="text">
      <string>Calculate
