@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
-    <height>461</height>
+    <width>954</width>
+    <height>436</height>
    </rect>
   </property>
   <property name="font">
@@ -198,6 +198,9 @@
      <font>
       <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Calculate
@@ -421,6 +424,15 @@ Stamps</string>
        <height>20</height>
       </rect>
      </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>For example: £2</string>
+     </property>
     </widget>
     <widget class="QLabel" name="new_stamp_name_label">
      <property name="geometry">
@@ -511,10 +523,12 @@ Stamps</string>
        <height>21</height>
       </rect>
      </property>
+     <property name="placeholderText">
+      <string>For example: 200</string>
+     </property>
     </widget>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
   <tabstop>new_stamp_name_line_edit</tabstop>

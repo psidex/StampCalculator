@@ -21,6 +21,7 @@ class StampCalculatorApp(Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
+        # For iterating over later
         self.packageRadioButtons = [
             self.smallParcel1kgRadio, self.smallParcel2kgRadio,
             self.mediumParcel1kgRadio, self.mediumParcel2kgRadio,
@@ -103,7 +104,7 @@ class StampCalculatorApp(Ui_MainWindow):
             self.popup("Value Error", "Stamp value", "Value must be int",
                 QMessageBox.Critical)
         else:
-            self.stampData["userStamps"][item_name] = {"value": item_value}
+            self.stampData["userStamps"][item_name] = item_value
 
         self.new_stamp_name_line_edit.clear()
         self.new_stamp_value_line_edit.clear()
@@ -130,14 +131,16 @@ class StampCalculatorApp(Ui_MainWindow):
         for item in sorted([n for n in self.stampData["userStamps"]]):
             self.current_stamps_list.addItem(item)
 
-    def saveStampData(self):
+    def saveStampData(self, *args, successPopup=True):
         """
         Save self.stampData to a JSON file
+        *args because button.click events send arguments to the called method
         """
         try:
             with open(stampDataPath, "w") as jsonOut:
                 json.dump(self.stampData, jsonOut)
-            self.popup("Success", "Save to stamps.json", "Sucessful")
+            if successPopup:
+                self.popup("Success", "Save to stamps.json", "Sucessful")
         except IOError:
             self.popup("Error", "IOError", "Cannot save to stamps.json")
 
@@ -162,6 +165,6 @@ if __name__ == "__main__":
     prog = StampCalculatorApp(dialog)
     dialog.show()
     app.exec_()
-    # Save on exit
-    prog.saveStampData()
+    # Save on exit (don't alert user if successful)
+    prog.saveStampData(successPopup=False)
     sys.exit()
