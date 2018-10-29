@@ -16,9 +16,9 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.setupUi(dialog)
 
         self.weight_lookup = {
-            self.sp_1kg: 340,
+            self.sp_1kg: 345,
             self.sp_2kg: 550,
-            self.mp_1kg: 570,
+            self.mp_1kg: 575,
             self.mp_2kg: 895,
             self.mp_5kg: 1585,
             self.mp_10kg: 2190,
