@@ -1,1 +1,15 @@
-{"packagePrices": {"sp_1kg": 345, "sp_2kg": 550, "mp_1kg": 575, "mp_2kg": 895, "mp_5kg": 1585, "mp_10kg": 2190, "mp_20kg": 3340}, "userStamps": {"\u00a34.60": 460, "\u00a30.10": 10}}
+{
+    "packagePrices": {
+        "sp_1kg": 345,
+        "sp_2kg": 550,
+        "mp_1kg": 575,
+        "mp_2kg": 895,
+        "mp_5kg": 1585,
+        "mp_10kg": 2190,
+        "mp_20kg": 3340
+    },
+    "userStamps": {
+        "\u00a34.60": 460,
+        "\u00a30.10": 10
+    }
+}
