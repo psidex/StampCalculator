@@ -2,7 +2,7 @@
 
 ## Build Qt resources
 
-`pyuic5 -x stamp_calc.ui -o stamp_calc_ui.py`
+`pyuic5 -x StampCalculator.ui -o StampCalculatorUI.py`
 
 ## Notes
 

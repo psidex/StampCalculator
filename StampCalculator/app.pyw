@@ -1,20 +1,27 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from ui.stamp_calc_ui import Ui_MainWindow
-import modules.json_bridge as jb
+from ui.StampCalculatorUI import Ui_MainWindow
+from modules.stampMaths import calcStampAmount
 import sys
+import json
 
-class stamp_calc_main_app(Ui_MainWindow):
+stampDataPath = "stampData.json"
+
+class StampCalculatorApp(Ui_MainWindow):
     def __init__(self, dialog):
+        # Setup stampData
         try:
-            self.stamp_dict = jb.get_dict_from_file("res/stamps.json")
+            with open(stampDataPath, "r") as jsonIn:
+                self.stampData = json.load(jsonIn)
         except FileNotFoundError:
             # No point doing anything unless stamps.json exists
-            self.popup("Fatal Error", "stamps.json", "not found", exit=True)
+            self.popup("Fatal Error", "stampData.json", "not found", exit=True)
 
+        # Init UI
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
+        # Maps radio buttons to package prices
         self.weight_lookup = {
             self.sp_1kg: 345,
             self.sp_2kg: 550,
@@ -25,11 +32,13 @@ class stamp_calc_main_app(Ui_MainWindow):
             self.mp_20kg: 3340
         }
 
+        # Connect UI elements up to class methods
         self.save_changes_btn.clicked.connect(self.save)
         self.add_new_stamp_btn.clicked.connect(self.add_new_stamp)
         self.rmv_selected_btn.clicked.connect(self.remove_selected_stamp)
         self.calc_stamps_button.clicked.connect(self.calculate)
 
+        # Update UI with current data
         self.load_values()
 
     """ == CALCULATION METHODS [BELOW] == """
@@ -54,55 +63,22 @@ class stamp_calc_main_app(Ui_MainWindow):
 
     def calculate(self):
         for radio in self.weight_lookup:
+            # Only one return True
             if radio.isChecked():
                 self.result_list.clear()
                 """
                 Work out in multiple different ways and choose the one with
                 the least stamps
                 """
-                mod_used = []
-                first_fit_used = []
-                aim_price = self.weight_lookup[radio]
+                aimPrice = self.weight_lookup[radio]
                 preserved_package_value = aim_price
-                list_of_available_stamps = [v["value"] for k,v in self.stamp_dict.items()]
+                availableStamps = [v["value"] for k,v in self.stamp_dict.items()]
 
                 try:
-                    largest_stamp = max(list_of_available_stamps)
+                    calculatedStampList = calcStampAmount(aimPrice, availableStamps)
+                    self.output_calculated(calculatedStampList, preserved_package_value)
                 except ValueError:
                     self.popup("Value Error", "No stamps available", "Add some to stock", QMessageBox.Critical)
-                    return
-
-                """See if any stamps fit into aim_price"""
-                for stamp in list_of_available_stamps:
-                    if aim_price % stamp == 0:
-                        mod_used.append([stamp for x in range(int(aim_price/stamp))])
-
-                """Decreasing first-fit algorithm"""
-                while aim_price > 0:
-                    if aim_price - largest_stamp < 0:
-                        if abs(aim_price - largest_stamp) < min(list_of_available_stamps):
-                            first_fit_used.append(largest_stamp)
-                            break
-                        list_of_available_stamps.remove(largest_stamp)
-                        try:
-                            largest_stamp = max(list_of_available_stamps)
-                        except ValueError:
-                            first_fit_used.append(largest_stamp)
-                            break
-                        continue
-                    first_fit_used.append(largest_stamp)
-                    aim_price -= largest_stamp
-
-                # use mod_used as a master list of all calculated lists
-                mod_used.append(first_fit_used)
-
-                # find list that contains lowest about of stamps
-                shortest = mod_used[0]
-                for l in mod_used:
-                    if len(shortest) > len(l):
-                        shortest = l
-
-                self.output_calculated(shortest, preserved_package_value)
 
     """ == CONFIG METHODS [BELOW] == """
 
@@ -136,7 +112,8 @@ class stamp_calc_main_app(Ui_MainWindow):
 
     def save(self):
         try:
-            jb.dump_dict_to_file(self.stamp_dict, "stamps.json")
+            with open(stampDataPath, "w") as jsonOut:
+                json.dump(self.stampData, jsonOut)
             self.popup("Success", "Save to stamps.json", "Sucessful")
         except IOError:
             self.popup("Error", "IOError", "Cannot save to stamps.json")
@@ -156,7 +133,7 @@ class stamp_calc_main_app(Ui_MainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     dialog = QtWidgets.QMainWindow()
-    prog = stamp_calc_main_app(dialog)
+    prog = StampCalculatorApp(dialog)
     dialog.show()
     app.exec_()
     prog.save()  # Save on exit
