@@ -1,13 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from stamp_calc_ui import Ui_MainWindow
-import json_bridge as jb
+from ui.stamp_calc_ui import Ui_MainWindow
+import modules.json_bridge as jb
 import sys
 
 class stamp_calc_main_app(Ui_MainWindow):
     def __init__(self, dialog):
         try:
-            self.stamp_dict = jb.get_dict_from_file("stamps.json")
+            self.stamp_dict = jb.get_dict_from_file("res/stamps.json")
         except FileNotFoundError:
             # No point doing anything unless stamps.json exists
             self.popup("Fatal Error", "stamps.json", "not found", exit=True)
@@ -16,9 +16,9 @@ class stamp_calc_main_app(Ui_MainWindow):
         self.setupUi(dialog)
 
         self.weight_lookup = {
-            self.sp_1kg: 340,
+            self.sp_1kg: 345,
             self.sp_2kg: 550,
-            self.mp_1kg: 570,
+            self.mp_1kg: 575,
             self.mp_2kg: 895,
             self.mp_5kg: 1585,
             self.mp_10kg: 2190,
