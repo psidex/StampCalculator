@@ -5,6 +5,7 @@ from modules.stampMaths import calcStampAmount
 import sys
 import json
 
+# TODO: Add another window that allows you to edit packagePrices
 stampDataPath = "stampData.json"
 
 class StampCalculatorApp(Ui_MainWindow):
@@ -30,10 +31,10 @@ class StampCalculatorApp(Ui_MainWindow):
         ]
 
         # Connect UI elements up to class methods
-        self.save_changes_btn.clicked.connect(self.saveStampData)
-        self.add_new_stamp_btn.clicked.connect(self.addNewStamp)
-        self.rmv_selected_btn.clicked.connect(self.removeSelectedStamp)
-        self.calc_stamps_btn.clicked.connect(self.calculateStampsToUse)
+        self.saveChangesBtn.clicked.connect(self.saveStampData)
+        self.addNewStampBtn.clicked.connect(self.addNewStamp)
+        self.rmveSelectedStampBtn.clicked.connect(self.removeSelectedStamp)
+        self.calcStampsToUseBtn.clicked.connect(self.calculateStampsToUse)
 
         # Update UI with current data
         self.updateGuiStampList()
@@ -61,10 +62,10 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         names = self.countStamps(used)
         # https://stackoverflow.com/a/15238187/6396652
-        self.result_label.setText("Postage\n£{:.2f}".format(packageValue/100))
+        self.postageResultLabel.setText("£{:.2f}".format(packageValue/100))
         for name in reversed(sorted(names)):
             output = name + " x " + str(names[name])
-            self.result_list.addItem(output)
+            self.postageResultStampList.addItem(output)
 
     def calculateStampsToUse(self):
         """
@@ -73,7 +74,7 @@ class StampCalculatorApp(Ui_MainWindow):
         for radio in self.packageRadioButtons:
             # Only one will return True
             if radio.isChecked():
-                self.result_list.clear()
+                self.postageResultStampList.clear()
 
                 aimPrice = self.stampData["packagePrices"][radio.objectName()]
                 preservedPackageValue = aimPrice
@@ -96,27 +97,32 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         Add a new stamp to self.stampData["userStamps"] and update the GUI
         """
-        item_name = self.new_stamp_name_line_edit.text()
+        newStampName = self.newStampNameLineEdit.text()
+        if newStampName.strip() == "":
+            self.popup("Value Error", "Stamp Name", "No stamp name",
+                QMessageBox.Critical)
+            return
 
         try:
-            item_value = int(self.new_stamp_value_line_edit.text())
+            newStampValue = int(self.newStampValueLineEdit.text())
         except ValueError:
-            self.popup("Value Error", "Stamp value", "Value must be int",
+            self.popup("Value Error", "Stamp Value", "Value must be int",
                 QMessageBox.Critical)
-        else:
-            self.stampData["userStamps"][item_name] = item_value
+            return
 
-        self.new_stamp_name_line_edit.clear()
-        self.new_stamp_value_line_edit.clear()
+        # Add new stamp and update GUI
+        self.stampData["userStamps"][newStampName] = newStampValue
+        self.newStampNameLineEdit.clear()
+        self.newStampValueLineEdit.clear()
         self.updateGuiStampList()
 
     def removeSelectedStamp(self):
         """
         Remove a stamp from self.stampData["userStamps"] and update the GUI
         """
-        for item in self.current_stamps_list.selectedItems():
-            item_name = item.text()
-            del self.stampData["userStamps"][item_name]
+        for item in self.currentOwnedStampsList.selectedItems():
+            removeStampName = item.text()
+            del self.stampData["userStamps"][removeStampName]
         self.updateGuiStampList()
 
     """
@@ -127,9 +133,9 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         Update the GUI stamp list (sorted lowest value first)
         """
-        self.current_stamps_list.clear()
+        self.currentOwnedStampsList.clear()
         for item in sorted([n for n in self.stampData["userStamps"]]):
-            self.current_stamps_list.addItem(item)
+            self.currentOwnedStampsList.addItem(item)
 
     def saveStampData(self, *args, successPopup=True):
         """
@@ -140,9 +146,9 @@ class StampCalculatorApp(Ui_MainWindow):
             with open(stampDataPath, "w") as jsonOut:
                 json.dump(self.stampData, jsonOut)
             if successPopup:
-                self.popup("Success", "Save to stamps.json", "Sucessful")
+                self.popup("Success", "Save to " + stampDataPath, "Sucessful")
         except IOError:
-            self.popup("Error", "IOError", "Cannot save to stamps.json")
+            self.popup("Error", "IOError", "Cannot save to " + stampDataPath)
 
     def popup(self, windowTitle, title, message, icon=QMessageBox.Information, exit=False):
         """

@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>954</width>
+    <width>940</width>
     <height>436</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>940</width>
+    <height>436</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -23,10 +29,28 @@
     <normaloff>icon.ico</normaloff>icon.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QListWidget:item {
+	border-radius:2px;
+}
+QListWidget:item:hover {
+    background-color: lightgrey;
+}
+QListWidget:item:selected {
+	color: black;
+    background-color: #afafaf;
+}
+
+QPushButton {
+	border: 1px solid black;
+	border-radius: 2px;
+	background-color: transparent;
+}
+QPushButton:hover {
+	background-color: lightgrey;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="small_parcel_label">
+   <widget class="QLabel" name="smallParcelTitleLable">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -116,7 +140,7 @@
      <string>1kg</string>
     </property>
    </widget>
-   <widget class="QLabel" name="meidum_parcel_label">
+   <widget class="QLabel" name="mediumParcelTitleLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -188,7 +212,7 @@
      <string>10kg</string>
     </property>
    </widget>
-   <widget class="QToolButton" name="calc_stamps_btn">
+   <widget class="QPushButton" name="calcStampsToUseBtn">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -199,7 +223,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="text">
@@ -207,13 +231,13 @@
 Postage</string>
     </property>
    </widget>
-   <widget class="QLabel" name="result_label">
+   <widget class="QLabel" name="postageResultLabel">
     <property name="geometry">
      <rect>
       <x>170</x>
-      <y>0</y>
+      <y>40</y>
       <width>221</width>
-      <height>81</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -224,40 +248,42 @@ Postage</string>
      </font>
     </property>
     <property name="text">
-     <string>Postage
-£0.00</string>
+     <string>£0.00</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="Line" name="vertical_line_1">
+   <widget class="Line" name="verticalLineL">
     <property name="geometry">
      <rect>
       <x>140</x>
       <y>0</y>
       <width>20</width>
-      <height>431</height>
+      <height>441</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="Line" name="vertical_line_2">
+   <widget class="Line" name="verticalLineM">
     <property name="geometry">
      <rect>
       <x>400</x>
       <y>0</y>
       <width>20</width>
-      <height>431</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="current_stamps_label">
+   <widget class="QLabel" name="currentStampsLabel">
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -279,7 +305,7 @@ Stamps</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QListWidget" name="result_list">
+   <widget class="QListWidget" name="postageResultStampList">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -300,7 +326,7 @@ Stamps</string>
      <enum>QAbstractItemView::NoSelection</enum>
     </property>
    </widget>
-   <widget class="QListWidget" name="current_stamps_list">
+   <widget class="QListWidget" name="currentOwnedStampsList">
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -330,12 +356,12 @@ Stamps</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="tools_label">
+   <widget class="QLabel" name="toolsTitleLabel">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>0</y>
-      <width>261</width>
+      <x>686</x>
+      <y>6</y>
+      <width>241</width>
       <height>41</height>
      </rect>
     </property>
@@ -351,191 +377,216 @@ Stamps</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="Line" name="veritcal_line_2">
+   <widget class="Line" name="verticalLineR">
     <property name="geometry">
      <rect>
       <x>660</x>
       <y>0</y>
       <width>20</width>
-      <height>431</height>
+      <height>441</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="btn_frame">
+   <widget class="QLabel" name="postageTitleLabel">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>50</y>
-      <width>261</width>
-      <height>381</height>
+      <x>170</x>
+      <y>0</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
+    <property name="text">
+     <string>Postage</string>
     </property>
-    <widget class="QToolButton" name="rmv_selected_btn">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>220</y>
-       <width>241</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Remove selected stamp</string>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="add_new_stamp_btn">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>130</y>
-       <width>241</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Add Stamp</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="new_stamp_name_line_edit">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>241</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="inputMask">
-      <string/>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="placeholderText">
-      <string>For example: £2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="new_stamp_name_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>6</y>
-       <width>241</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>New stamp name:</string>
-     </property>
-    </widget>
-    <widget class="Line" name="horizontal_line_1">
-     <property name="geometry">
-      <rect>
-       <x>-3</x>
-       <y>190</y>
-       <width>251</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="QToolButton" name="save_changes_btn">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>310</y>
-       <width>241</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>SAVE CHANGES</string>
-     </property>
-    </widget>
-    <widget class="Line" name="horizontal_line_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>280</y>
-       <width>251</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-    <widget class="QLabel" name="new_stamp_value_label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>66</y>
-       <width>241</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>New stamp value (pence):</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="new_stamp_value_line_edit">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>90</y>
-       <width>241</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="placeholderText">
-      <string>For example: 200</string>
-     </property>
-    </widget>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rmveSelectedStampBtn">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>280</y>
+      <width>241</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Remove Selected Stamp</string>
+    </property>
+   </widget>
+   <widget class="Line" name="horizontalLine2">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>340</y>
+      <width>281</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="horizontalLine1">
+    <property name="geometry">
+     <rect>
+      <x>667</x>
+      <y>250</y>
+      <width>281</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="newStampNameLabel">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>60</y>
+      <width>241</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>New stamp name:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="saveChangesBtn">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>370</y>
+      <width>241</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Save Changes</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="newStampValueLabel">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>122</y>
+      <width>241</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>New stamp value (pence):</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="addNewStampBtn">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>195</y>
+      <width>241</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Add Stamp</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="newStampNameLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>89</y>
+      <width>241</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>For example: £2</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="newStampValueLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>685</x>
+      <y>152</y>
+      <width>241</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>For example: 200</string>
+    </property>
+   </widget>
+   <widget class="Line" name="horizontalLine3">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>44</y>
+      <width>281</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
    </widget>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>new_stamp_name_line_edit</tabstop>
-  <tabstop>new_stamp_value_line_edit</tabstop>
-  <tabstop>add_new_stamp_btn</tabstop>
-  <tabstop>rmv_selected_btn</tabstop>
-  <tabstop>save_changes_btn</tabstop>
   <tabstop>smallParcel1kgRadio</tabstop>
   <tabstop>smallParcel2kgRadio</tabstop>
   <tabstop>mediumParcel1kgRadio</tabstop>
@@ -543,9 +594,9 @@ Stamps</string>
   <tabstop>mediumParcel5kgRadio</tabstop>
   <tabstop>mediumParcel10kgRadio</tabstop>
   <tabstop>mediumParcel20kgRadio</tabstop>
-  <tabstop>calc_stamps_btn</tabstop>
-  <tabstop>result_list</tabstop>
-  <tabstop>current_stamps_list</tabstop>
+  <tabstop>calcStampsToUseBtn</tabstop>
+  <tabstop>postageResultStampList</tabstop>
+  <tabstop>currentOwnedStampsList</tabstop>
  </tabstops>
  <resources/>
  <connections/>
