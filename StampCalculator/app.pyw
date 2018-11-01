@@ -170,8 +170,8 @@ class StampCalculatorApp(Ui_MainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
 
-    # Load the Roboto font - :/ is from the resource file
-    QtGui.QFontDatabase.addApplicationFont(":/fonts/Roboto.ttf")
+    # TODO: Figure out how to use custom fonts
+    # QtGui.QFontDatabase.addApplicationFont(":/fonts/Roboto.ttf")
 
     dialog = QtWidgets.QMainWindow()
     prog = StampCalculatorApp(dialog)
