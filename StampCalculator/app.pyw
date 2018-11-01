@@ -1,9 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from ui.StampCalculatorUI import Ui_MainWindow
 from modules.stampMaths import calcStampAmount
 import sys
 import json
+
+sys.path.append("gui")  # So auto-generated imports don't break
+from gui.stampCalculatorUI import Ui_MainWindow
 
 # TODO: Add another window that allows you to edit packagePrices
 stampDataPath = "stampData.json"
@@ -19,7 +21,7 @@ class StampCalculatorApp(Ui_MainWindow):
             self.popup("Fatal Error", stampDataPath, "not found", exit=True)
 
         # Init UI
-        Ui_MainWindow.__init__(self)
+        Ui_MainWindow.__init__(self)        
         self.setupUi(dialog)
 
         # For iterating over later
@@ -167,10 +169,15 @@ class StampCalculatorApp(Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+
+    # Load the Roboto font - :/ is from the resource file
+    QtGui.QFontDatabase.addApplicationFont(":/fonts/Roboto.ttf")
+
     dialog = QtWidgets.QMainWindow()
     prog = StampCalculatorApp(dialog)
     dialog.show()
     app.exec_()
+
     # Save on exit (don't alert user if successful)
     prog.saveStampData(successPopup=False)
     sys.exit()

@@ -16,20 +16,39 @@
     <height>436</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Tahoma</family>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Stamp Calculator</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>icon.ico</normaloff>icon.ico</iconset>
+   <iconset resource="stampCalculator.qrc">
+    <normaloff>:/Icons/stamp.ico</normaloff>:/Icons/stamp.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QListWidget:item {
+   <string notr="true">QWidget  {
+	font-size: 16px;
+	color: #000000;
+	background-color: #bdbdbd;
+}
+
+QLabel#postageTitleLabel, QLabel#postageResultLabel, QLabel#currentStampsLabel, QLabel#toolsTitleLabel {
+	font-size: 30px;
+}
+
+QLineEdit {
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid black;
+}
+
+QListWidget#postageResultStampList, QListWidget#currentOwnedStampsList {
+	font-size: 25px;
+}
+
+QListWidget {
+	border-radius: 5px;
+	border: 1px solid black;
+}
+QListWidget:item {
 	border-radius:2px;
 }
 QListWidget:item:hover {
@@ -40,13 +59,17 @@ QListWidget:item:selected {
     background-color: #afafaf;
 }
 
+QPushButton#calcStampsToUseBtn, QPushButton#addNewStampBtn, QPushButton#rmveSelectedStampBtn, QPushButton#saveChangesBtn {
+	font-size: 20px;
+}
+
 QPushButton {
 	border: 1px solid black;
-	border-radius: 2px;
-	background-color: transparent;
+	border-radius: 5px;
+	background-color: #cfcfcf;
 }
 QPushButton:hover {
-	background-color: lightgrey;
+	background-color: #707070;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -58,11 +81,6 @@ QPushButton:hover {
       <width>111</width>
       <height>31</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>Small Parcel</string>
@@ -77,11 +95,6 @@ QPushButton:hover {
       <height>21</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>1kg</string>
     </property>
@@ -94,11 +107,6 @@ QPushButton:hover {
       <width>82</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>2kg</string>
@@ -113,11 +121,6 @@ QPushButton:hover {
       <height>21</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>2kg</string>
     </property>
@@ -130,11 +133,6 @@ QPushButton:hover {
       <width>82</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>1kg</string>
@@ -149,11 +147,6 @@ QPushButton:hover {
       <height>31</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>Medium Parcel</string>
     </property>
@@ -166,11 +159,6 @@ QPushButton:hover {
       <width>82</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>5kg</string>
@@ -185,11 +173,6 @@ QPushButton:hover {
       <height>21</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>20kg</string>
     </property>
@@ -202,11 +185,6 @@ QPushButton:hover {
       <width>82</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>10kg</string>
@@ -221,10 +199,8 @@ QPushButton:hover {
       <height>111</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Calculate
@@ -239,13 +215,6 @@ Postage</string>
       <width>221</width>
       <height>41</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
     </property>
     <property name="text">
      <string>£0.00</string>
@@ -292,11 +261,6 @@ Postage</string>
       <height>81</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>Owned
 Stamps</string>
@@ -311,13 +275,8 @@ Stamps</string>
       <x>170</x>
       <y>90</y>
       <width>221</width>
-      <height>341</height>
+      <height>330</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
     </property>
     <property name="defaultDropAction">
      <enum>Qt::IgnoreAction</enum>
@@ -332,13 +291,8 @@ Stamps</string>
       <x>430</x>
       <y>90</y>
       <width>221</width>
-      <height>341</height>
+      <height>330</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
     </property>
     <property name="showDropIndicator" stdset="0">
      <bool>false</bool>
@@ -364,11 +318,6 @@ Stamps</string>
       <width>241</width>
       <height>41</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
     </property>
     <property name="text">
      <string>Tools</string>
@@ -399,13 +348,6 @@ Stamps</string>
       <height>41</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
     <property name="text">
      <string>Postage</string>
     </property>
@@ -422,10 +364,8 @@ Stamps</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Remove Selected Stamp</string>
@@ -466,11 +406,6 @@ Stamps</string>
       <height>30</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>New stamp name:</string>
     </property>
@@ -484,10 +419,8 @@ Stamps</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Save Changes</string>
@@ -502,11 +435,6 @@ Stamps</string>
       <height>30</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="text">
      <string>New stamp value (pence):</string>
     </property>
@@ -520,13 +448,14 @@ Stamps</string>
       <height>51</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Add Stamp</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="newStampNameLineEdit">
@@ -537,11 +466,6 @@ Stamps</string>
       <width>241</width>
       <height>30</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
     </property>
     <property name="inputMask">
      <string/>
@@ -562,13 +486,11 @@ Stamps</string>
       <height>30</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
     <property name="placeholderText">
      <string>For example: 200</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="Line" name="horizontalLine3">
@@ -584,6 +506,35 @@ Stamps</string>
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
+   <zorder>horizontalLine2</zorder>
+   <zorder>horizontalLine3</zorder>
+   <zorder>horizontalLine1</zorder>
+   <zorder>smallParcelTitleLable</zorder>
+   <zorder>smallParcel1kgRadio</zorder>
+   <zorder>smallParcel2kgRadio</zorder>
+   <zorder>mediumParcel2kgRadio</zorder>
+   <zorder>mediumParcel1kgRadio</zorder>
+   <zorder>mediumParcelTitleLabel</zorder>
+   <zorder>mediumParcel5kgRadio</zorder>
+   <zorder>mediumParcel20kgRadio</zorder>
+   <zorder>mediumParcel10kgRadio</zorder>
+   <zorder>calcStampsToUseBtn</zorder>
+   <zorder>postageResultLabel</zorder>
+   <zorder>verticalLineL</zorder>
+   <zorder>verticalLineM</zorder>
+   <zorder>currentStampsLabel</zorder>
+   <zorder>postageResultStampList</zorder>
+   <zorder>currentOwnedStampsList</zorder>
+   <zorder>toolsTitleLabel</zorder>
+   <zorder>verticalLineR</zorder>
+   <zorder>postageTitleLabel</zorder>
+   <zorder>rmveSelectedStampBtn</zorder>
+   <zorder>newStampNameLabel</zorder>
+   <zorder>saveChangesBtn</zorder>
+   <zorder>newStampValueLabel</zorder>
+   <zorder>addNewStampBtn</zorder>
+   <zorder>newStampNameLineEdit</zorder>
+   <zorder>newStampValueLineEdit</zorder>
   </widget>
  </widget>
  <tabstops>
@@ -598,6 +549,8 @@ Stamps</string>
   <tabstop>postageResultStampList</tabstop>
   <tabstop>currentOwnedStampsList</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="stampCalculator.qrc"/>
+ </resources>
  <connections/>
 </ui>
