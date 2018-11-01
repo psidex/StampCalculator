@@ -4,6 +4,7 @@ from modules.stampMaths import calcStampAmount
 import sys
 import json
 
+# TODO: This fix will not work when compiled with pyinstaller
 sys.path.append("gui")  # So auto-generated imports don't break
 from gui.stampCalculatorUI import Ui_MainWindow
 
