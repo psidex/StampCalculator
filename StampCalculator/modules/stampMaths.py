@@ -9,41 +9,41 @@ Decreasing first-fit algorithm:
        continue
 """
 
-def calcStampAmount(aim_price, list_of_available_stamps):
+def calcStampAmount(aimPrice, listOfAvailableStamps):
     """
     Work out in multiple different ways and choose the one with the least stamps
     """
-    largest_stamp = max(list_of_available_stamps)
-    mod_used = []
-    first_fit_used = []
+    largestStamp = max(listOfAvailableStamps)
+    possibleStampLists = []
 
-    """See if any stamps fit into aim_price"""
-    for stamp in list_of_available_stamps:
-        if aim_price % stamp == 0:
-            mod_used.append([stamp for x in range(int(aim_price/stamp))])
+    """See if any stamps fit into aimPrice"""
+    for stamp in listOfAvailableStamps:
+        if aimPrice % stamp == 0:
+            possibleStampLists.append([stamp for x in range(int(aimPrice/stamp))])
 
     """Decreasing first-fit algorithm"""
-    while aim_price > 0:
-        if aim_price - largest_stamp < 0:
-            if abs(aim_price - largest_stamp) < min(list_of_available_stamps):
-                first_fit_used.append(largest_stamp)
+    firstFitUsed = []
+    while aimPrice > 0:
+        if aimPrice - largestStamp < 0:
+            if abs(aimPrice - largestStamp) < min(listOfAvailableStamps):
+                firstFitUsed.append(largestStamp)
                 break
-            list_of_available_stamps.remove(largest_stamp)
+            listOfAvailableStamps.remove(largestStamp)
             try:
-                largest_stamp = max(list_of_available_stamps)
+                largestStamp = max(listOfAvailableStamps)
             except ValueError:
-                first_fit_used.append(largest_stamp)
+                firstFitUsed.append(largestStamp)
                 break
             continue
-        first_fit_used.append(largest_stamp)
-        aim_price -= largest_stamp
+        firstFitUsed.append(largestStamp)
+        aimPrice -= largestStamp
 
-    # use mod_used as a master list of lists
-    mod_used.append(first_fit_used)
+    # use possibleStampLists as a master list of lists
+    possibleStampLists.append(firstFitUsed)
 
     # find list that contains lowest about of stamps
-    shortest = mod_used[0]
-    for l in mod_used:
+    shortest = possibleStampLists[0]
+    for l in possibleStampLists:
         if len(shortest) > len(l):
             shortest = l
 
