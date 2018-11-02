@@ -16,7 +16,7 @@ stampDataPath = "stampData.json"
 class StampCalculatorApp(Ui_MainWindow):
     def __init__(self, dialog):
         try:
-            # Setup stampData
+            # Get stampData
             with open(stampDataPath, "r") as jsonIn:
                 self.stampData = json.load(jsonIn)
         except FileNotFoundError:
@@ -68,7 +68,7 @@ class StampCalculatorApp(Ui_MainWindow):
 
     def updateCalculatedStampsGui(self, used, packageValue):
         """
-        Update GUI with calculated Postage and used stamps
+        Update GUI with calculated Postage and used (and sorted) stamps
         """
         names = self.countStamps(used)
         # https://stackoverflow.com/a/15238187/6396652
@@ -100,7 +100,7 @@ class StampCalculatorApp(Ui_MainWindow):
                         QMessageBox.Critical)
 
     """
-        == CONFIG METHODS ==
+    Configuration Methods
     """
 
     def addNewStamp(self):
@@ -136,12 +136,12 @@ class StampCalculatorApp(Ui_MainWindow):
         self.updateGuiStampList()
 
     """
-        == UTILITY METHODS ==
+    Utility Methods
     """
 
     def updateGuiStampList(self):
         """
-        Update the GUI stamp list (sorted lowest value first)
+        Update the GUI current owned stamp list (sorted lowest value first)
         """
         self.currentOwnedStampsList.clear()
         for item in sorted([n for n in self.stampData["userStamps"]]):

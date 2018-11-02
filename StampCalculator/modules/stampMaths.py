@@ -16,12 +16,12 @@ def calcStampAmount(aimPrice, listOfAvailableStamps):
     largestStamp = max(listOfAvailableStamps)
     possibleStampLists = []
 
-    """See if any stamps fit into aimPrice"""
+    # See if any stamps fit exactly into aimPrice
     for stamp in listOfAvailableStamps:
         if aimPrice % stamp == 0:
             possibleStampLists.append([stamp for x in range(int(aimPrice/stamp))])
 
-    """Decreasing first-fit algorithm"""
+    # Decreasing first-fit algorithm
     firstFitUsed = []
     while aimPrice > 0:
         if aimPrice - largestStamp < 0:
@@ -50,7 +50,9 @@ def calcStampAmount(aimPrice, listOfAvailableStamps):
     return shortest
 
 if __name__ == "__main__":
-    """ Tests """
+    """
+    Run some tests
+    """
     c = calcStampAmount
     assert(c(380, [200,190,100,50,20,10]) == [190, 190])
     assert(c(40, [10, 20, 215]) == [20, 20])
