@@ -51,8 +51,9 @@ def calcStampAmount(aim_price, list_of_available_stamps):
 
 if __name__ == "__main__":
     """ Tests """
-    print(stamps(380, [200,190,100,50,20,10]))  # Should return mod_used list: [190 * 2]
-    print(stamps(895, [10, 20, 215]))  # Should return [2 * 20] instead of [2 * 10] + [1 * 20]
-    print(stamps(50, [50]))  # Should return one stamp of value 50
-    print(stamps(50, [100]))  # Should return one stamp of value 100
-    print(stamps(50, [13]))  # Should return [4 * 13]
+    c = calcStampAmount
+    assert(c(380, [200,190,100,50,20,10]) == [190, 190])
+    assert(c(40, [10, 20, 215]) == [20, 20])
+    assert(c(50, [50]) == [50])
+    assert(c(50, [100]) == [100])
+    assert(c(50, [13]) == [13, 13, 13, 13])
