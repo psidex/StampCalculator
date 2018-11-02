@@ -10,6 +10,12 @@
     <height>436</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>940</width>
+    <height>436</height>
+   </size>
+  </property>
   <property name="maximumSize">
    <size>
     <width>940</width>
@@ -26,8 +32,6 @@
   <property name="styleSheet">
    <string notr="true">QWidget  {
 	font-size: 16px;
-	color: #000000;
-	background-color: #bdbdbd;
 }
 
 QLabel#postageTitleLabel, QLabel#postageResultLabel, QLabel#currentStampsLabel, QLabel#toolsTitleLabel {
@@ -45,18 +49,18 @@ QListWidget#postageResultStampList, QListWidget#currentOwnedStampsList {
 }
 
 QListWidget {
-	border-radius: 5px;
+	border-radius: 3px;
 	border: 1px solid black;
 }
 QListWidget:item {
-	border-radius:2px;
+	border-radius: 2px;
 }
 QListWidget:item:hover {
     background-color: lightgrey;
 }
 QListWidget:item:selected {
 	color: black;
-    background-color: #afafaf;
+    background-color: grey;
 }
 
 QPushButton#calcStampsToUseBtn, QPushButton#addNewStampBtn, QPushButton#rmveSelectedStampBtn, QPushButton#saveChangesBtn {
@@ -66,10 +70,12 @@ QPushButton#calcStampsToUseBtn, QPushButton#addNewStampBtn, QPushButton#rmveSele
 QPushButton {
 	border: 1px solid black;
 	border-radius: 5px;
-	background-color: #cfcfcf;
 }
 QPushButton:hover {
-	background-color: #707070;
+	background-color: lightgrey;
+}
+QPushButton:pressed {
+	background-color: grey;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
