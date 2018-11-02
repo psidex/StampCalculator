@@ -21,11 +21,16 @@ class StampCalculatorApp(Ui_MainWindow):
                 self.stampData = json.load(jsonIn)
         except FileNotFoundError:
             # No point doing anything unless stampDataPath exists
-            self.popup("Fatal Error", stampDataPath, "not found", exit=True)
+            self.popup("Fatal Error", f"{stampDataPath} not found", exit=True)
 
         # Init UI
         Ui_MainWindow.__init__(self)        
         self.setupUi(dialog)
+
+        # Do this once now so it can be used later (such as in popup windows)
+        self.windowIcon = QtGui.QIcon()
+        # :/ is the path for resource files
+        self.windowIcon.addPixmap(QtGui.QPixmap(":/Icons/stamp.ico"))
 
         # For iterating over later
         self.packageRadioButtons = [
@@ -92,7 +97,7 @@ class StampCalculatorApp(Ui_MainWindow):
                         preservedPackageValue)
                 except ValueError:
                     self.popup("Value Error", "No stamps available",
-                        "Add some to stock", QMessageBox.Critical)
+                        QMessageBox.Critical)
 
     """
         == CONFIG METHODS ==
@@ -104,14 +109,14 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         newStampName = self.newStampNameLineEdit.text()
         if newStampName.strip() == "":
-            self.popup("Value Error", "Stamp Name", "No stamp name",
+            self.popup("Value Error", "No stamp name",
                 QMessageBox.Critical)
             return
 
         try:
             newStampValue = int(self.newStampValueLineEdit.text())
         except ValueError:
-            self.popup("Value Error", "Stamp Value", "Value must be int",
+            self.popup("Value Error", "Stamp value must be int",
                 QMessageBox.Critical)
             return
 
@@ -151,20 +156,20 @@ class StampCalculatorApp(Ui_MainWindow):
             with open(stampDataPath, "w") as jsonOut:
                 json.dump(self.stampData, jsonOut)
             if successPopup:
-                self.popup("Success", "Save to " + stampDataPath, "Sucessful")
+                self.popup("Success", f"Save to {stampDataPath} was sucessful")
         except IOError:
-            self.popup("Error", "IOError", "Cannot save to " + stampDataPath)
+            self.popup("Error", f"IOError: Cannot save to {stampDataPath}")
 
-    def popup(self, windowTitle, title, message, icon=QMessageBox.Information, exit=False):
+    def popup(self, title, message, icon=QMessageBox.Information, exit=False):
         """
         Create a Qt5 "popup" window
         """
         msg = QMessageBox()
         msg.setIcon(icon)
-        msg.setWindowTitle(windowTitle)
+        msg.setWindowIcon(self.windowIcon)
+        msg.setWindowTitle("Stamp Calculator")
         msg.setText(title)
         msg.setInformativeText(message)
-        msg.setStandardButtons(QMessageBox.Ok)
         if exit:
             sys.exit(msg.exec_())
         else:
@@ -172,12 +177,10 @@ class StampCalculatorApp(Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-
     dialog = QtWidgets.QMainWindow()
     prog = StampCalculatorApp(dialog)
     dialog.show()
     app.exec_()
-
     # Save on exit (don't alert user if successful)
     prog.saveStampData(successPopup=False)
     sys.exit()
