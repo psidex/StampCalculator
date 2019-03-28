@@ -13,6 +13,7 @@ from gui.stampCalculatorUI import Ui_MainWindow
 # TODO: Add another window that allows you to edit packagePrices
 stampDataPath = "stampData.json"
 
+
 class StampCalculatorApp(Ui_MainWindow):
     def __init__(self, dialog):
         try:
@@ -24,7 +25,7 @@ class StampCalculatorApp(Ui_MainWindow):
             self.popup("Fatal Error", f"{stampDataPath} not found", exit=True)
 
         # Init UI
-        Ui_MainWindow.__init__(self)        
+        Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
         # Do this once now so it can be used later (such as in popup windows)
@@ -34,10 +35,13 @@ class StampCalculatorApp(Ui_MainWindow):
 
         # For iterating over later
         self.packageRadioButtons = [
-            self.smallParcel1kgRadio, self.smallParcel2kgRadio,
-            self.mediumParcel1kgRadio, self.mediumParcel2kgRadio,
-            self.mediumParcel5kgRadio, self.mediumParcel10kgRadio,
-            self.mediumParcel20kgRadio
+            self.smallParcel1kgRadio,
+            self.smallParcel2kgRadio,
+            self.mediumParcel1kgRadio,
+            self.mediumParcel2kgRadio,
+            self.mediumParcel5kgRadio,
+            self.mediumParcel10kgRadio,
+            self.mediumParcel20kgRadio,
         ]
 
         # Connect UI elements up to class methods
@@ -72,7 +76,7 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         names = self.countStamps(used)
         # https://stackoverflow.com/a/15238187/6396652
-        self.postageResultLabel.setText("£{:.2f}".format(packageValue/100))
+        self.postageResultLabel.setText("£{:.2f}".format(packageValue / 100))
         for name in reversed(sorted(names)):
             output = name + " x " + str(names[name])
             self.postageResultStampList.addItem(output)
@@ -88,16 +92,17 @@ class StampCalculatorApp(Ui_MainWindow):
 
                 aimPrice = self.stampData["packagePrices"][radio.objectName()]
                 preservedPackageValue = aimPrice
-                availableStamps = [v for k,v in self.stampData["userStamps"].items()]
+                availableStamps = [v for k, v in self.stampData["userStamps"].items()]
 
                 try:
-                    calculatedStampList = calcStampAmount(aimPrice,
-                        availableStamps)
-                    self.updateCalculatedStampsGui(calculatedStampList,
-                        preservedPackageValue)
+                    calculatedStampList = calcStampAmount(aimPrice, availableStamps)
+                    self.updateCalculatedStampsGui(
+                        calculatedStampList, preservedPackageValue
+                    )
                 except ValueError:
-                    self.popup("Value Error", "No stamps available",
-                        QMessageBox.Critical)
+                    self.popup(
+                        "Value Error", "No stamps available", QMessageBox.Critical
+                    )
 
     """
     Configuration Methods
@@ -109,15 +114,13 @@ class StampCalculatorApp(Ui_MainWindow):
         """
         newStampName = self.newStampNameLineEdit.text()
         if newStampName.strip() == "":
-            self.popup("Value Error", "No stamp name",
-                QMessageBox.Critical)
+            self.popup("Value Error", "No stamp name", QMessageBox.Critical)
             return
 
         try:
             newStampValue = int(self.newStampValueLineEdit.text())
         except ValueError:
-            self.popup("Value Error", "Stamp value must be int",
-                QMessageBox.Critical)
+            self.popup("Value Error", "Stamp value must be int", QMessageBox.Critical)
             return
 
         # Add new stamp and update GUI
@@ -174,6 +177,7 @@ class StampCalculatorApp(Ui_MainWindow):
             sys.exit(msg.exec_())
         else:
             msg.exec_()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
