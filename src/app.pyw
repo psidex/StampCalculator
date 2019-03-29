@@ -49,6 +49,7 @@ class StampCalculatorApp(Ui_MainWindow):
         self.addNewStampBtn.clicked.connect(self.addNewStamp)
         self.rmveSelectedStampBtn.clicked.connect(self.removeSelectedStamp)
         self.calcStampsToUseBtn.clicked.connect(self.calculateStampsToUse)
+        # self.editParcelPricesBtn.clicked.connect(self.test)
 
         # Update UI with current data
         self.updateGuiStampList()
