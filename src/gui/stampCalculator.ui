@@ -430,7 +430,7 @@ Stamps</string>
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
-     <string>Save Owned Stamps</string>
+     <string>Save All Changes</string>
     </property>
    </widget>
    <widget class="QLabel" name="newStampValueLabel">

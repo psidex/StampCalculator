@@ -102,3 +102,4 @@ ENV/
 
 # ui
 */gui/*.py
+stampCalculator_rc.py
