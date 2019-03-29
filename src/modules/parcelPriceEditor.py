@@ -3,7 +3,6 @@ from gui.parcelPriceEditor import Ui_Dialog
 
 class parcelPriceEditor(Ui_Dialog):
     def __init__(self, dialog, stampData):
-
         super().__init__()
         self.setupUi(dialog)
 

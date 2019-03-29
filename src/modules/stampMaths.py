@@ -9,19 +9,21 @@ Decreasing first-fit algorithm:
        continue
 """
 
+
 def calcStampAmount(aimPrice, listOfAvailableStamps):
     """
     Work out in multiple different ways and choose the one with the least stamps
     """
-    largestStamp = max(listOfAvailableStamps)
+    # possibleStampLists is a master list of lists
     possibleStampLists = []
 
     # See if any stamps fit exactly into aimPrice
     for stamp in listOfAvailableStamps:
         if aimPrice % stamp == 0:
-            possibleStampLists.append([stamp for x in range(int(aimPrice/stamp))])
+            possibleStampLists.append([stamp for x in range(int(aimPrice / stamp))])
 
     # Decreasing first-fit algorithm
+    largestStamp = max(listOfAvailableStamps)
     firstFitUsed = []
     while aimPrice > 0:
         if aimPrice - largestStamp < 0:
@@ -38,7 +40,6 @@ def calcStampAmount(aimPrice, listOfAvailableStamps):
         firstFitUsed.append(largestStamp)
         aimPrice -= largestStamp
 
-    # use possibleStampLists as a master list of lists
     possibleStampLists.append(firstFitUsed)
 
     # find list that contains lowest about of stamps
@@ -49,13 +50,14 @@ def calcStampAmount(aimPrice, listOfAvailableStamps):
 
     return shortest
 
+
 if __name__ == "__main__":
     """
     Run some tests
     """
     c = calcStampAmount
-    assert(c(380, [200,190,100,50,20,10]) == [190, 190])
-    assert(c(40, [10, 20, 215]) == [20, 20])
-    assert(c(50, [50]) == [50])
-    assert(c(50, [100]) == [100])
-    assert(c(50, [13]) == [13, 13, 13, 13])
+    assert c(380, [200, 190, 100, 50, 20, 10]) == [190, 190]
+    assert c(40, [10, 20, 215]) == [20, 20]
+    assert c(50, [50]) == [50]
+    assert c(50, [100]) == [100]
+    assert c(50, [13]) == [13, 13, 13, 13]
