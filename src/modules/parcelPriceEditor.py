@@ -1,5 +1,7 @@
 from gui.parcelPriceEditor import Ui_Dialog
 
+# TODO: Check that the price values aren't blank before saving to dict
+
 
 class parcelPriceEditor(Ui_Dialog):
     def __init__(self, dialog, stampData):
