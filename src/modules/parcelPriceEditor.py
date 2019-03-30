@@ -1,7 +1,5 @@
 from gui.parcelPriceEditor import Ui_Dialog
 
-# TODO: Check that the price values aren't blank before saving to dict
-
 
 class parcelPriceEditor(Ui_Dialog):
     def __init__(self, dialog, stampData):
@@ -9,27 +7,60 @@ class parcelPriceEditor(Ui_Dialog):
         self.setupUi(dialog)
 
         self.stampData = stampData
-        self.cancelled = False
+        self.accepted = False
+        self.error = False
+        self.errMsg = ""
 
-        self.buttonBox.rejected.connect(self.cancelBtnPressed)
+        # All the line edits, in order
+        self.lineEdits = [
+            self.smallParcel1kgLineEdit,
+            self.smallParcel2kgLineEdit,
+            self.mediumParcel1kgLineEdit,
+            self.mediumParcel2kgLineEdit,
+            self.mediumParcel5kgLineEdit,
+            self.mediumParcel10kgLineEdit,
+            self.mediumParcel20kgLineEdit,
+        ]
+        # All of the dictionary keys for the parcel prices, same order as above
+        self.parcelPriceKeys = [
+            "smallParcel1kg",
+            "smallParcel2kg",
+            "mediumParcel1kg",
+            "mediumParcel2kg",
+            "mediumParcel5kg",
+            "mediumParcel10kg",
+            "mediumParcel20kg",
+        ]
 
-        # Pretty hacky, probably a better way to do this
-        dialog.closeEvent = self.closeEvent
+        self.buttonBox.accepted.connect(self.acceptBtnPressed)
 
         self.populateLineEdits()
 
     def populateLineEdits(self):
-        stampPrices = self.stampData["packagePrices"]
-        self.smallParcel1kgLineEdit.setText(str(stampPrices["smallParcel1kgRadio"]))
-        self.smallParcel2kgLineEdit.setText(str(stampPrices["smallParcel2kgRadio"]))
-        self.mediumParcel1kgLineEdit.setText(str(stampPrices["mediumParcel1kgRadio"]))
-        self.mediumParcel2kgLineEdit.setText(str(stampPrices["mediumParcel2kgRadio"]))
-        self.mediumParcel5kgLineEdit.setText(str(stampPrices["mediumParcel5kgRadio"]))
-        self.mediumParcel10kgLineEdit.setText(str(stampPrices["mediumParcel10kgRadio"]))
-        self.mediumParcel20kgLineEdit.setText(str(stampPrices["mediumParcel20kgRadio"]))
+        """
+        For each line edit, set it's value to the corresponding value in the parcel
+        price dictionary
+        """
+        stampPrices = self.stampData["parcelPrices"]
 
-    def cancelBtnPressed(self):
-        self.cancelled = True
+        for index, lineEdit in enumerate(self.lineEdits):
+            lineEdit.setText(str(stampPrices[self.parcelPriceKeys[index]]))
 
-    def closeEvent(self, evnt):
-        self.cancelled = True
+    def acceptBtnPressed(self):
+        if self.checkValues():
+            self.accepted = True
+        else:
+            self.error = True
+
+    def checkValues(self):
+        for lineEdit in self.lineEdits:
+            lineText = lineEdit.text()
+            if lineText.strip() == "":
+                self.errMsg = "Parcel price value cannot be empty"
+                return False
+            try:
+                int(lineText)
+            except ValueError:
+                self.errMsg = f"{lineText} is an invalid value for parcel price"
+                return False
+        return True

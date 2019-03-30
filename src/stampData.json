@@ -1,1 +1,16 @@
-{"packagePrices": {"smallParcel1kgRadio": 345, "smallParcel2kgRadio": 550, "mediumParcel1kgRadio": 575, "mediumParcel2kgRadio": 895, "mediumParcel5kgRadio": 1585, "mediumParcel10kgRadio": 2190, "mediumParcel20kgRadio": 3340}, "userStamps": {"\u00a30.10": 10, "\u00a34.10": 410}}
+{
+    "parcelPrices": {
+        "smallParcel1kg": 345,
+        "smallParcel2kg": 550,
+        "mediumParcel1kg": 575,
+        "mediumParcel2kg": 895,
+        "mediumParcel5kg": 1585,
+        "mediumParcel10kg": 2190,
+        "mediumParcel20kg": 3340
+    },
+    "userStamps": {
+        "\u00a34.10": 410,
+        "\u00a32": 200,
+        "\u00a31": 100
+    }
+}

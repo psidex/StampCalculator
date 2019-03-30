@@ -12,14 +12,11 @@ stampDataPath = "stampData.json"
 class StampCalculatorApp(Ui_MainWindow):
     def __init__(self, dialog):
         try:
-            # Get stampData
             with open(stampDataPath, "r") as jsonIn:
                 self.stampData = json.load(jsonIn)
         except FileNotFoundError:
-            # No point doing anything unless stampDataPath exists
             self.popup("Fatal Error", f"{stampDataPath} not found", exit=True)
 
-        # Init UI
         Ui_MainWindow.__init__(self)
         self.setupUi(dialog)
 
@@ -39,7 +36,6 @@ class StampCalculatorApp(Ui_MainWindow):
             self.mediumParcel20kgRadio,
         ]
 
-        # Connect UI elements up to class methods
         self.saveChangesBtn.clicked.connect(self.saveStampData)
         self.addNewStampBtn.clicked.connect(self.addNewStamp)
         self.rmveSelectedStampBtn.clicked.connect(self.removeSelectedStamp)
@@ -50,7 +46,7 @@ class StampCalculatorApp(Ui_MainWindow):
         self.updateGuiStampList()
 
     def openParcelPriceEditor(self):
-        # Remove "?" button from the title bar, give default(ish) flags to QDialog
+        # Remove "?" button from the title bar by giving default(ish) flags to QDialog
         dialoug = QDialog(
             None,
             QtCore.Qt.WindowSystemMenuHint
@@ -60,29 +56,15 @@ class StampCalculatorApp(Ui_MainWindow):
         priceEditor = parcelPriceEditor(dialoug, self.stampData)
         dialoug.exec_()
 
-        if not priceEditor.cancelled:
-            # Update packagePrices with the values from the price editor
-            self.stampData["packagePrices"]["smallParcel1kgRadio"] = int(
-                priceEditor.smallParcel1kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["smallParcel2kgRadio"] = int(
-                priceEditor.smallParcel2kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["mediumParcel1kgRadio"] = int(
-                priceEditor.mediumParcel1kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["mediumParcel2kgRadio"] = int(
-                priceEditor.mediumParcel2kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["mediumParcel5kgRadio"] = int(
-                priceEditor.mediumParcel5kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["mediumParcel10kgRadio"] = int(
-                priceEditor.mediumParcel10kgLineEdit.text()
-            )
-            self.stampData["packagePrices"]["mediumParcel20kgRadio"] = int(
-                priceEditor.mediumParcel20kgLineEdit.text()
-            )
+        if priceEditor.error:
+            self.popup("Error", priceEditor.errMsg, QMessageBox.Critical)
+
+        elif priceEditor.accepted:
+            # For each line edit, set the package price to lineEdit.text()
+            for index, lineEdit in enumerate(priceEditor.lineEdits):
+                self.stampData["parcelPrices"][
+                    priceEditor.parcelPriceKeys[index]
+                ] = int(lineEdit.text())
 
     def countStamps(self, usedList):
         """
@@ -121,7 +103,9 @@ class StampCalculatorApp(Ui_MainWindow):
             if radio.isChecked():
                 self.postageResultStampList.clear()
 
-                aimPrice = self.stampData["packagePrices"][radio.objectName()]
+                parcelPriceKey = radio.objectName().replace("Radio", "")
+                aimPrice = self.stampData["parcelPrices"][parcelPriceKey]
+
                 preservedPackageValue = aimPrice
                 availableStamps = [v for k, v in self.stampData["userStamps"].items()]
 
@@ -144,6 +128,7 @@ class StampCalculatorApp(Ui_MainWindow):
         Add a new stamp to self.stampData["userStamps"] and update the GUI
         """
         newStampName = self.newStampNameLineEdit.text()
+
         if newStampName.strip() == "":
             self.popup("Value Error", "No stamp name", QMessageBox.Critical)
             return
@@ -192,7 +177,11 @@ class StampCalculatorApp(Ui_MainWindow):
             if successPopup:
                 self.popup("Success", f"Save to {stampDataPath} was sucessful")
         except IOError:
-            self.popup("Error", f"IOError: Cannot save to {stampDataPath}")
+            self.popup(
+                "Error",
+                f"IOError: Cannot save to {stampDataPath}",
+                QMessageBox.Critical,
+            )
 
     def popup(self, title, message, icon=QMessageBox.Information, exit=False):
         """
