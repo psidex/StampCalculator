@@ -13,21 +13,21 @@ class parcelPriceEditor(Ui_Dialog):
 
         # All the line edits, in order
         self.lineEdits = [
-            self.smallParcel1kgLineEdit,
+            # self.smallParcel1kgLineEdit,
             self.smallParcel2kgLineEdit,
-            self.mediumParcel1kgLineEdit,
+            # self.mediumParcel1kgLineEdit,
             self.mediumParcel2kgLineEdit,
-            self.mediumParcel5kgLineEdit,
+            # self.mediumParcel5kgLineEdit,
             self.mediumParcel10kgLineEdit,
             self.mediumParcel20kgLineEdit,
         ]
         # All of the dictionary keys for the parcel prices, same order as above
         self.parcelPriceKeys = [
-            "smallParcel1kg",
+            # "smallParcel1kg",
             "smallParcel2kg",
-            "mediumParcel1kg",
+            # "mediumParcel1kg",
             "mediumParcel2kg",
-            "mediumParcel5kg",
+            # "mediumParcel5kg",
             "mediumParcel10kg",
             "mediumParcel20kg",
         ]

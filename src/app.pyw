@@ -1,10 +1,12 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QDialog
-import sys
 import json
-from modules.stampMaths import calcStampAmount
-from modules.parcelPriceEditor import parcelPriceEditor
+import sys
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QDialog, QMessageBox
+
 from gui.stampCalculatorUI import Ui_MainWindow
+from modules.parcelPriceEditor import parcelPriceEditor
+from modules.stampMaths import calcStampAmount
 
 stampDataPath = "stampData.json"
 
@@ -27,11 +29,11 @@ class StampCalculatorApp(Ui_MainWindow):
 
         # For iterating over later
         self.packageRadioButtons = [
-            self.smallParcel1kgRadio,
+            # self.smallParcel1kgRadio,
             self.smallParcel2kgRadio,
-            self.mediumParcel1kgRadio,
+            # self.mediumParcel1kgRadio,
             self.mediumParcel2kgRadio,
-            self.mediumParcel5kgRadio,
+            # self.mediumParcel5kgRadio,
             self.mediumParcel10kgRadio,
             self.mediumParcel20kgRadio,
         ]
