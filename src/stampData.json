@@ -1,10 +1,7 @@
 {
     "parcelPrices": {
-        "smallParcel1kg": 345,
         "smallParcel2kg": 550,
-        "mediumParcel1kg": 575,
         "mediumParcel2kg": 895,
-        "mediumParcel5kg": 1585,
         "mediumParcel10kg": 2190,
         "mediumParcel20kg": 3340
     },

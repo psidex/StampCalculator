@@ -49,14 +49,14 @@ class StampCalculatorApp(Ui_MainWindow):
 
     def openParcelPriceEditor(self):
         # Remove "?" button from the title bar by giving default(ish) flags to QDialog
-        dialoug = QDialog(
+        dialog = QDialog(
             None,
             QtCore.Qt.WindowSystemMenuHint
             | QtCore.Qt.WindowTitleHint
             | QtCore.Qt.WindowCloseButtonHint,
         )
-        priceEditor = parcelPriceEditor(dialoug, self.stampData)
-        dialoug.exec_()
+        priceEditor = parcelPriceEditor(dialog, self.stampData)
+        dialog.exec_()
 
         if priceEditor.error:
             self.popup("Error", priceEditor.errMsg, QMessageBox.Critical)
