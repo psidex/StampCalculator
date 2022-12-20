@@ -7,7 +7,7 @@ copy gui\*_rc.py .
 pyinstaller --onefile --windowed --icon=gui/stamp.ico app.pyw
 :: Clean up
 rd /s /q build
-del *.spec 
+del *.spec
 del /Q *_rc.py
 rename dist\app.exe StampCalc.exe
 cd ..
